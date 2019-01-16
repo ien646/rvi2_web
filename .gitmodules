@@ -1,0 +1,6 @@
+[submodule "lib/rvi2"]
+	path = lib/rvi2
+	url = https://github.com/bigiansen/rvi2
+[submodule "third-party/wt"]
+	path = third-party/wt
+	url = https://github.com/emweb/wt
