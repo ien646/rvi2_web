@@ -21,5 +21,6 @@ OPTION(WT_WARN_HEADER_MISSING_H "Output a warning if a Wt header without .h exte
 OPTION(ENABLE_UNWIND "Build Wt with stacktrace support using libunwind" OFF)
 OPTION(CONNECTOR_ISAPI "Compile in ISAPI connector (libwtisapi) ?" OFF)
 OPTION(CONNECTOR_FCGI "Compile in FCGI connector (libwtfcgi) ?" OFF)
+OPTION(WT_BOOST_DISCOVERY "User WT Boost discovery" OFF)
 
 add_subdirectory(wt)

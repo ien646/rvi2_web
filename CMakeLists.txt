@@ -9,8 +9,6 @@ message("**             ------------           **")
 message("****************************************")
 message("")
 
-message("BOOST LIB DIR = ${BOOST_LIBRARY_DIR}")
-
 project(rvi2_web LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
