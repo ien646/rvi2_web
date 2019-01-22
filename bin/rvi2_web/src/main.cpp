@@ -5,13 +5,13 @@
 
 #include <rvi/runtime.hpp>
 
-#include "GL.h"
+#include "cozy_widget.hpp"
 
 class App : public Wt::WApplication
 {
 private:
     const Wt::WEnvironment& _env;
-    GL* _gl;
+    cozy_widget* _gl;
 
 public:
     App(const Wt::WEnvironment& env)
@@ -19,7 +19,7 @@ public:
         , Wt::WApplication(env)
     { 
         this->setTitle("TEST");
-        _gl = root()->addWidget(std::make_unique<GL>());
+        _gl = root()->addWidget(std::make_unique<cozy_widget>());
     }
 };
 

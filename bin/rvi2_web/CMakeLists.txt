@@ -1,5 +1,6 @@
 set(RVI2_WEB_SOURCES
 	src/main.cpp
+	src/cozy_widget.cpp
 )
 
 add_executable(rvi2_web ${RVI2_WEB_SOURCES})
