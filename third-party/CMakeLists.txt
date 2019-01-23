@@ -23,4 +23,7 @@ OPTION(CONNECTOR_ISAPI "Compile in ISAPI connector (libwtisapi) ?" OFF)
 OPTION(CONNECTOR_FCGI "Compile in FCGI connector (libwtfcgi) ?" OFF)
 OPTION(WT_BOOST_DISCOVERY "User WT Boost discovery" OFF)
 
+# -- Disable warnings --
+add_definitions("-w")
+
 add_subdirectory(wt)
