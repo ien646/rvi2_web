@@ -1,3 +1,7 @@
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 			${PROJECT_BINARY_DIR}/output/bin/rvi2_web)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG 	${PROJECT_BINARY_DIR}/output/bin/rvi2_web)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE 	${PROJECT_BINARY_DIR}/output/bin/rvi2_web)
+
 set(RVI2_WEB_SOURCES
 	src/main.cpp
 	src/cozy_widget.cpp
@@ -6,8 +10,8 @@ set(RVI2_WEB_SOURCES
 add_executable(rvi2_web ${RVI2_WEB_SOURCES})
 target_include_directories(rvi2_web 
 	PUBLIC include
-	PUBLIC ${CMAKE_SOURCE_DIR}/third-party/wt/src
-	PUBLIC ${CMAKE_BINARY_DIR}/third-party/wt)
+	PUBLIC ${PROJECT_SOURCE_DIR}/third-party/wt/src
+	PUBLIC ${PROJECT_BINARY_DIR}/third-party/wt)
 
 FIND_PACKAGE(Boost 1.35
   COMPONENTS
@@ -26,3 +30,8 @@ target_link_libraries(rvi2_web
 	wt
 	wthttp
 )
+
+get_property(RVI2_DATA_DIR GLOBAL PROPERTY RVI2_DATA_DIR)
+
+file(COPY ${PROJECT_SOURCE_DIR}/bin/rvi2_web/shaders DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY ${RVI2_DATA_DIR} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
