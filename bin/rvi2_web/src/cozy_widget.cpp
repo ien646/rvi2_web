@@ -10,7 +10,7 @@ const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 cozy_widget::cozy_widget()
 {
     resize(800, 600);
-    decorationStyle().setBackgroundColor(Wt::WColor(32, 32, 32));
+    // decorationStyle().setBackgroundColor(Wt::WColor(32, 32, 32));
 
     _client_id = _runtime.create_client();
     _runtime.start_client(_client_id);
