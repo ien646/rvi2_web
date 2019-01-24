@@ -10,7 +10,7 @@ const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 cozy_widget::cozy_widget()
 {
     resize(800, 600);
-    // decorationStyle().setBackgroundColor(Wt::WColor(32, 32, 32));
+    decorationStyle().setBackgroundColor(Wt::WColor(100, 100, 100));
 
     _client_id = _runtime.create_client();
     _runtime.start_client(_client_id);
@@ -86,6 +86,18 @@ void cozy_widget::compile_shaders()
     useProgram(_sh_program);
 }
 
+float encode_color_wgl(rvi::color_rgba color)
+{
+    float result = 0.0F;
+    float pr = std::floor(static_cast<float>(color.r) / 255 * 99);
+    float pg = std::floor(static_cast<float>(color.g) / 255 * 99);
+    float pb = std::floor(static_cast<float>(color.b) / 255 * 99);
+    float pa = std::floor(static_cast<float>(color.a) / 255 * 99);
+
+    result += (pr * 100 * 100 * 100) + (pg * 100 * 100) + (pb * 100) + pa;
+    return result;
+}
+
 void cozy_widget::refresh_snapshot()
 {
     if(!_gl_initialized)
@@ -100,22 +112,23 @@ void cozy_widget::refresh_snapshot()
         {
             _vx_buff.push_back(ln.start.position.x);
             _vx_buff.push_back(ln.start.position.y);
-            uint32_t sc = ln.start.color.rgba();
-            float scolor = *reinterpret_cast<float*>(&sc);
+            float scolor = encode_color_wgl(ln.start.color);
             _vx_buff.push_back(scolor);
 
             _vx_buff.push_back(ln.end.position.x);
             _vx_buff.push_back(ln.end.position.y);
-            uint32_t ec = ln.end.color.rgba();
-            float ecolor = *reinterpret_cast<float*>(&ec);
+            float ecolor = encode_color_wgl(ln.end.color);
             _vx_buff.push_back(scolor);
         }
     }
     bindBuffer(ARRAY_BUFFER, _vbo);
-    vertexAttribPointer(AttribLocation(0), 3, FLOAT, false, 0, 0);
-    enableVertexAttribArray(AttribLocation(0));
-    bindAttribLocation(_sh_program, 0, "vertex");
-    bufferDatafv(ARRAY_BUFFER, _vx_buff.begin(), _vx_buff.end(), DYNAMIC_DRAW);
+
+    // vertex position data attr
+    AttribLocation loc_vx_pos = getAttribLocation(_sh_program, "vertex_position");
+    vertexAttribPointer(loc_vx_pos, 3, FLOAT, false, 3 * sizeof(float), 0);
+    enableVertexAttribArray(loc_vx_pos);
+
+    bufferDatafv(ARRAY_BUFFER, _vx_buff, DYNAMIC_DRAW);
 }
 
 void cozy_widget::initializeGL()
