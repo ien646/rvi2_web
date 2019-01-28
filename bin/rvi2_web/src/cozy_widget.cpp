@@ -113,7 +113,7 @@ void cozy_widget::refresh_snapshot()
         }
     }
     bindBuffer(ARRAY_BUFFER, _vbo);
-    bufferDatafv(ARRAY_BUFFER, _vx_buff.begin(), _vx_buff.end(), DYNAMIC_DRAW);
+    bufferDatafv(ARRAY_BUFFER, _vx_buff.begin(), _vx_buff.end(), DYNAMIC_DRAW, true);
 
     // vertex position data attr
     AttribLocation loc_vx_pos = getAttribLocation(_sh_program, "vertex_position");
