@@ -5,16 +5,21 @@
 #include <string>
 
 #include <rvi/runtime.hpp>
-#include <rvi/std_bindings.hpp>
+#include <rvi/standard_library.hpp>
 
 class cozy_widget : public Wt::WGLWidget
 {
 private:
     rvi::runtime _runtime;
-    int _client_id = -1;
-    std::vector<float> _vx_buff;
+    rvi::rvi_cid_t _client_id = 0u;
+
+    rvi::line_container _vx_data;
+
+    Wt::WGLWidget::Buffer _vbo_pos;
+    Wt::WGLWidget::Buffer _vbo_col;
+
     Wt::WGLWidget::Program _sh_program;
-    Wt::WGLWidget::Buffer _vbo;
+
     bool _gl_initialized = false;
 
     const static std::string PX_SHADER_PATH;

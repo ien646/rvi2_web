@@ -14,27 +14,15 @@ cozy_widget::cozy_widget()
 
     _client_id = _runtime.create_client();
     _runtime.start_client(_client_id);
-    _runtime.get_instance(_client_id).create_binding("hello_click", 
-    [](rvi::client_instance& inst, const rvi::arglist_t& args) {
-        // Save current selected frame
-        auto& ctx = inst.context;
-        rvi::frame* save_ptr = ctx.selected_frame();
-
-        // Return to root frame
-        ctx.select_frame("hello_friend");
-        ctx.clear_frame();
-        ctx.clear_children();
-        ctx.set_position(rvi::vector2(0.10f, 0.15f));
-        rvi::std_bindings::printx(inst, ctx.selected_frame()->name() , "+-+-+ HELLO FRIEND +-+-+");
-        ctx.select_frame(save_ptr);
-    });
 
     this->clicked().connect([&](const Wt::WMouseEvent& e)
     { 
         auto& inst = _runtime.get_instance(_client_id);
         Wt::Coordinates coords = e.widget();
-        float x = static_cast<float>(coords.x) / this->width().value();
-        float y = static_cast<float>(coords.y) / this->height().value();
+        float x = 
+            static_cast<float>(coords.x) / static_cast<float>(this->width().value());
+        float y = 
+            static_cast<float>(coords.y) / static_cast<float>(this->height().value());
         inst.user_click(rvi::vector2(x, y));
         refresh_snapshot();
         repaintGL(Wt::GLClientSideRenderer::RESIZE_GL);
@@ -93,42 +81,44 @@ void cozy_widget::refresh_snapshot()
     {
         return;
     }
-    auto snapsh = _runtime.snapshot_full_relative(_client_id);
-    _vx_buff.clear();
+    _vx_data.clear();
+    rvi::relative_snapshot snapsh = _runtime.snapshot_full_relative(_client_id);
     for(auto& entry : snapsh)
     {
-        for(auto& ln : entry.lines)
-        {
-            _vx_buff.push_back(ln.start.position.x);
-            _vx_buff.push_back(ln.start.position.y);
-            uint32_t srgba = ln.start.color.rgba();
-            float scolor = *reinterpret_cast<float*>(&srgba);
-            _vx_buff.push_back(scolor);
-
-            _vx_buff.push_back(ln.end.position.x);
-            _vx_buff.push_back(ln.end.position.y);
-            uint32_t ergba = ln.start.color.rgba();
-            float ecolor = *reinterpret_cast<float*>(&ergba);
-            _vx_buff.push_back(ecolor);
-        }
+        entry.lines.move_into(_vx_data);
     }
-    bindBuffer(ARRAY_BUFFER, _vbo);
-    bufferDatafv(ARRAY_BUFFER, _vx_buff.begin(), _vx_buff.end(), DYNAMIC_DRAW, true);
 
-    // vertex position data attr
+    bindBuffer(ARRAY_BUFFER, _vbo_pos);
+    bufferDatafv(
+        ARRAY_BUFFER, 
+        _vx_data.position_cbegin(), 
+        _vx_data.position_cend(), 
+        DYNAMIC_DRAW, 
+        true
+    );
     AttribLocation loc_vx_pos = getAttribLocation(_sh_program, "vertex_position");
-    vertexAttribPointer(loc_vx_pos, 2, FLOAT, false, 12, 0);
+    vertexAttribPointer(loc_vx_pos, 2, FLOAT, false, 8, 0);
     enableVertexAttribArray(loc_vx_pos);
+
+    bindBuffer(ARRAY_BUFFER, _vbo_col);
+    bufferDataiv(
+        ARRAY_BUFFER,
+        _vx_data.color_cbegin(), 
+        _vx_data.color_cend(), 
+        DYNAMIC_DRAW,
+        UNSIGNED_INT
+    );
     
     AttribLocation loc_vx_col = getAttribLocation(_sh_program, "vertex_color");
-    vertexAttribPointer(loc_vx_col, 4, BYTE, false, 12, 8);
+    vertexAttribPointer(loc_vx_col, 4, BYTE, false, 4, 0);
     enableVertexAttribArray(loc_vx_col);
 }
 
 void cozy_widget::initializeGL()
 {
     compile_shaders();
-    _vbo = createBuffer();
+    _vbo_pos = createBuffer();
+    _vbo_col = createBuffer();
     _gl_initialized = true;
     refresh_snapshot();
 }
@@ -143,6 +133,5 @@ void cozy_widget::paintGL()
     refresh_snapshot();
     clearColor(0.2, 0.2, 0.2, 0.5);
     useProgram(_sh_program);
-    bindBuffer(ARRAY_BUFFER, _vbo);
-    drawArrays(LINES, 0, _vx_buff.size() / 3);
+    drawArrays(LINES, 0, _vx_data.size() * 2);
 }
