@@ -1,11 +1,13 @@
 #pragma once
 
 #include <Wt/WGLWidget.h>
+#include <Wt/WJavaScript.h>
 #include <vector>
 #include <string>
 
 #include <rvi/runtime.hpp>
 #include <rvi/standard_library.hpp>
+
 
 class cozy_widget : public Wt::WGLWidget
 {
@@ -26,7 +28,7 @@ private:
     const static std::string VX_SHADER_PATH;
 
     void compile_shaders();
-
+    
 public:
     cozy_widget();
     void refresh_snapshot();

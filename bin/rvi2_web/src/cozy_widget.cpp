@@ -3,15 +3,21 @@
 #include <fstream>
 #include <sstream>
 #include <Wt/WCssDecorationStyle.h>
+#include <Wt/WJavaScriptSlot.h>
 
 const std::string cozy_widget::PX_SHADER_PATH = "shaders/pxshader.glsl";
 const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 
 cozy_widget::cozy_widget()
-{
-    resize(800, 600);
-    decorationStyle().setBackgroundColor(Wt::WColor(100, 100, 100));
+{        
+    setLayoutSizeAware(true);
 
+    Wt::WLength len(100, Wt::LengthUnit::Percentage);
+    
+    resize(len, len);
+    decorationStyle().setBackgroundColor(Wt::WColor(100, 100, 100));
+    setMargin(0);
+    
     _client_id = _runtime.create_client();
     _runtime.start_client(_client_id);
 
@@ -120,8 +126,10 @@ void cozy_widget::initializeGL()
     _vbo_pos = createBuffer();
     _vbo_col = createBuffer();
     _gl_initialized = true;
-    refresh_snapshot();
+    refresh_snapshot();    
 }
+
+static int www,hhh;
 
 void cozy_widget::resizeGL(int width, int height)
 {

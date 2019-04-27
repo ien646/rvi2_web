@@ -2,6 +2,7 @@
 #include <Wt/WText.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WGLWidget.h>
+#include <Wt/WHBoxLayout.h>
 
 #include <rvi/runtime.hpp>
 
@@ -17,9 +18,12 @@ public:
     App(const Wt::WEnvironment& env)
         : _env(env)
         , Wt::WApplication(env)
-    { 
+    {
+        Wt::WApplication::instance()->useStyleSheet("css/main.css");
         this->setTitle("TEST");
-        _gl = root()->addWidget(std::make_unique<cozy_widget>());
+
+        auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
+        _gl = layout->addWidget(std::make_unique<cozy_widget>());        
     }
 };
 
