@@ -23,7 +23,7 @@ public:
         this->setTitle("TEST");
 
         auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
-        _gl = layout->addWidget(std::make_unique<cozy_widget>());        
+        _gl = layout->addWidget(std::make_unique<cozy_widget>());
     }
 };
 

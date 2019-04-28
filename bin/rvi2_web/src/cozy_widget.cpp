@@ -3,13 +3,29 @@
 #include <fstream>
 #include <sstream>
 #include <Wt/WCssDecorationStyle.h>
-#include <Wt/WJavaScriptSlot.h>
+#include <Wt/WJavaScript.h>
 
 const std::string cozy_widget::PX_SHADER_PATH = "shaders/pxshader.glsl";
 const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 
+#define RESIZE_JS() doJavaScript( \
+                        "Wt.emit('" + id() + "', 'resize_signal'" + \
+                        ", document.getElementById('" + id() + "').clientWidth" + \
+                        ", document.getElementById('" + id() + "').clientHeight)")
+        
+
+void cozy_widget::resize_signal(int w, int h) 
+{
+    resize(w, h);
+    resizeGL(w, h);
+    Wt::WLength len(100, Wt::LengthUnit::Percentage);    
+    resize(len, len);
+}
+
 cozy_widget::cozy_widget()
-{        
+    : _resize_signal(this, "resize_signal")
+{
+    _resize_signal.connect(this, &cozy_widget::resize_signal);
     setLayoutSizeAware(true);
 
     Wt::WLength len(100, Wt::LengthUnit::Percentage);
@@ -33,7 +49,10 @@ cozy_widget::cozy_widget()
         refresh_snapshot();
         repaintGL(Wt::GLClientSideRenderer::RESIZE_GL);
         repaintGL(Wt::GLClientSideRenderer::PAINT_GL);
+        RESIZE_JS();
     });
+
+    RESIZE_JS();
 }
 
 void cozy_widget::compile_shaders()
@@ -126,7 +145,7 @@ void cozy_widget::initializeGL()
     _vbo_pos = createBuffer();
     _vbo_col = createBuffer();
     _gl_initialized = true;
-    refresh_snapshot();    
+    refresh_snapshot();
 }
 
 static int www,hhh;

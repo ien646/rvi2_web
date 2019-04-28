@@ -29,6 +29,8 @@ private:
 
     void compile_shaders();
     
+    Wt::JSignal<int, int> _resize_signal;
+
 public:
     cozy_widget();
     void refresh_snapshot();
@@ -37,4 +39,6 @@ public:
     void resizeGL(int width, int height) override;
     void paintGL() override;
     void updateGL() override {}
+
+    void resize_signal(int w, int h);
 };
