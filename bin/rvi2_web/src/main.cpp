@@ -22,7 +22,12 @@ public:
         Wt::WApplication::instance()->useStyleSheet("css/main.css");
         this->setTitle("TEST");
 
+        root()->setStyleClass("nomp");
+        root()->setPadding(0);
+        root()->setThemeStyleEnabled(false);
+
         auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
+        layout->setSpacing(0);
         _gl = layout->addWidget(std::make_unique<cozy_widget>());
     }
 };

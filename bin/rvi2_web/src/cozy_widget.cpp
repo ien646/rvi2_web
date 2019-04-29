@@ -9,22 +9,34 @@ const std::string cozy_widget::PX_SHADER_PATH = "shaders/pxshader.glsl";
 const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 
 #define RESIZE_JS() doJavaScript( \
-                        "Wt.emit('" + id() + "', 'resize_signal'" + \
-                        ", document.getElementById('" + id() + "').clientWidth" + \
-                        ", document.getElementById('" + id() + "').clientHeight)")
-        
+                        " Wt.emit('" + id() + "', 'resize_signal'" + \
+                        ", window.innerWidth" + \
+                        ", window.innerHeight)")     
+
+void cozy_widget::init_resize_timer(int pollrate_ms)
+{
+    std::stringstream jstr;
+    jstr << "setInterval("
+         << "function() {"
+         << "Wt.emit('" + id() + "', 'resize_signal', window.innerWidth, window.innerHeight)}"
+         << ", " + std::to_string(pollrate_ms) + ")";
+    doJavaScript(jstr.str());
+}
 
 void cozy_widget::resize_signal(int w, int h) 
-{
-    resize(w, h);
+{    
     resizeGL(w, h);
-    Wt::WLength len(100, Wt::LengthUnit::Percentage);    
-    resize(len, len);
+    resize(w, h);
 }
 
 cozy_widget::cozy_widget()
     : _resize_signal(this, "resize_signal")
 {
+    setStyleClass("nomp");
+    init_resize_timer(1000);
+    // Disable padding
+    doJavaScript("document.getElementById(document.getElementById('"+id()+"').parentElement.id).style.padding=0");
+
     _resize_signal.connect(this, &cozy_widget::resize_signal);
     setLayoutSizeAware(true);
 

@@ -31,6 +31,8 @@ private:
     
     Wt::JSignal<int, int> _resize_signal;
 
+    void init_resize_timer(int pollrate_ms);
+
 public:
     cozy_widget();
     void refresh_snapshot();
