@@ -50,13 +50,13 @@ cozy_widget::cozy_widget()
     _runtime.start_client(_client_id);
 
     this->clicked().connect([&](const Wt::WMouseEvent& e)
-    { 
+    {
         auto& inst = _runtime.get_instance(_client_id);
         Wt::Coordinates coords = e.widget();
         float x = 
             static_cast<float>(coords.x) / static_cast<float>(this->width().value());
         float y = 
-            static_cast<float>(coords.y) / static_cast<float>(this->height().value());
+            1.0F - (static_cast<float>(coords.y) / static_cast<float>(this->height().value()));
         inst.user_click(rvi::vector2(x, y));
         refresh_snapshot();
         repaintGL(Wt::GLClientSideRenderer::RESIZE_GL);
@@ -118,6 +118,7 @@ void cozy_widget::refresh_snapshot()
     {
         return;
     }
+
     _vx_data.clear();
     rvi::relative_snapshot snapsh = _runtime.snapshot_full_relative(_client_id);
     for(auto& entry : snapsh)
@@ -130,7 +131,7 @@ void cozy_widget::refresh_snapshot()
         ARRAY_BUFFER, 
         _vx_data.position_cbegin(), 
         _vx_data.position_cend(), 
-        DYNAMIC_DRAW, 
+        DYNAMIC_DRAW,
         true
     );
     AttribLocation loc_vx_pos = getAttribLocation(_sh_program, "vertex_position");
@@ -170,6 +171,7 @@ void cozy_widget::resizeGL(int width, int height)
 void cozy_widget::paintGL()
 {
     refresh_snapshot();
+    clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
     clearColor(0.2, 0.2, 0.2, 0.5);
     useProgram(_sh_program);
     drawArrays(LINES, 0, _vx_data.size() * 2);

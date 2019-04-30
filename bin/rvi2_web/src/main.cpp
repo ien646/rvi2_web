@@ -5,6 +5,7 @@
 #include <Wt/WHBoxLayout.h>
 
 #include <rvi/runtime.hpp>
+#include <rvi/client_instance.hpp>
 
 #include "cozy_widget.hpp"
 
@@ -29,9 +30,6 @@ public:
         auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
         layout->setSpacing(0);
         _cozy = layout->addWidget(std::make_unique<cozy_widget>());
-        
-        auto c_inst = _cozy->get_client_instance();
-        
     }
 };
 
