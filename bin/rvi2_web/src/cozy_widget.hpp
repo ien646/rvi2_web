@@ -43,4 +43,6 @@ public:
     void updateGL() override {}
 
     void resize_signal(int w, int h);
+
+    rvi::client_instance* get_client_instance() { return &(_runtime.get_instance(_client_id)); }
 };

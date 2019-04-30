@@ -12,7 +12,7 @@ class App : public Wt::WApplication
 {
 private:
     const Wt::WEnvironment& _env;
-    cozy_widget* _gl;
+    cozy_widget* _cozy;
 
 public:
     App(const Wt::WEnvironment& env)
@@ -28,7 +28,10 @@ public:
 
         auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
         layout->setSpacing(0);
-        _gl = layout->addWidget(std::make_unique<cozy_widget>());
+        _cozy = layout->addWidget(std::make_unique<cozy_widget>());
+        
+        auto c_inst = _cozy->get_client_instance();
+        
     }
 };
 

@@ -11,7 +11,7 @@ const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 #define RESIZE_JS() doJavaScript( \
                         " Wt.emit('" + id() + "', 'resize_signal'" + \
                         ", window.innerWidth" + \
-                        ", window.innerHeight)")     
+                        ", window.innerHeight)")
 
 void cozy_widget::init_resize_timer(int pollrate_ms)
 {
