@@ -24,9 +24,52 @@ void cozy_widget::init_resize_timer(int pollrate_ms)
 }
 
 void cozy_widget::resize_signal(int w, int h) 
-{    
-    resizeGL(w, h);
-    resize(w, h);
+{
+    float win_aspect_ratio = static_cast<float>(h) / static_cast<float>(w);
+    float vpt_aspect_ratio = _aspect_ratio_y / _aspect_ratio_x;
+
+    int final_w, final_h;
+    int w_rem, h_rem;
+
+    if(vpt_aspect_ratio > win_aspect_ratio)
+    {
+        final_h = h;
+        final_w = h * vpt_aspect_ratio;
+
+        h_rem = 0;
+        w_rem = w - final_w;
+    }
+    else
+    {
+        final_w = w;
+        final_h = w * vpt_aspect_ratio;
+
+        w_rem = 0;
+        h_rem = h - final_h;
+    }
+
+    resizeGL(final_w, final_h);
+    resize(final_w, final_h);
+
+    recenter_widget(w_rem / 2, h_rem / 2);
+}
+
+void cozy_widget::recenter_widget(int x_pos, int y_pos)
+{
+    setPositionScheme(Wt::PositionScheme::Absolute);
+    setOffsets(x_pos, Wt::Side::Left);
+    setOffsets(y_pos, Wt::Side::Top);
+}
+
+void cozy_widget::init_lua_methods()
+{
+    sol::state* lua_state = get_client_instance()->get_lua_context()->get_lua_state();
+
+    lua_state->set_function("set_viewport_aspect_ratio", [&](float x, float y)
+    {
+        _aspect_ratio_x = x;
+        _aspect_ratio_y = y;
+    });
 }
 
 cozy_widget::cozy_widget()
@@ -40,9 +83,9 @@ cozy_widget::cozy_widget()
     _resize_signal.connect(this, &cozy_widget::resize_signal);
     setLayoutSizeAware(true);
 
-    Wt::WLength len(100, Wt::LengthUnit::Percentage);
-    
-    resize(len, len);
+    //Wt::WLength len(100, Wt::LengthUnit::Percentage);
+    //resize(len, len);
+
     decorationStyle().setBackgroundColor(Wt::WColor(100, 100, 100));
     setMargin(0);
     
