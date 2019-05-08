@@ -34,7 +34,7 @@ void cozy_widget::resize_signal(int w, int h)
     if(vpt_aspect_ratio > win_aspect_ratio)
     {
         final_h = h;
-        final_w = h * vpt_aspect_ratio;
+        final_w = static_cast<int>(h * vpt_aspect_ratio);
 
         h_rem = 0;
         w_rem = w - final_w;
@@ -42,7 +42,7 @@ void cozy_widget::resize_signal(int w, int h)
     else
     {
         final_w = w;
-        final_h = w * vpt_aspect_ratio;
+        final_h = static_cast<int>(w * vpt_aspect_ratio);
 
         w_rem = 0;
         h_rem = h - final_h;
@@ -94,13 +94,13 @@ cozy_widget::cozy_widget()
 
     this->clicked().connect([&](const Wt::WMouseEvent& e)
     {
-        auto& inst = _runtime.get_instance(_client_id);
+        auto inst = _runtime.get_instance(_client_id);
         Wt::Coordinates coords = e.widget();
         float x = 
             static_cast<float>(coords.x) / static_cast<float>(this->width().value());
         float y = 
             1.0F - (static_cast<float>(coords.y) / static_cast<float>(this->height().value()));
-        inst.user_click(rvi::vector2(x, y));
+        inst->user_click(rvi::vector2(x, y));
         refresh_snapshot();
         repaintGL(Wt::GLClientSideRenderer::RESIZE_GL);
         repaintGL(Wt::GLClientSideRenderer::PAINT_GL);

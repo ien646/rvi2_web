@@ -50,5 +50,5 @@ public:
     void resize_signal(int w, int h);
     void recenter_widget(int fw, int fh);
 
-    rvi::client_instance* get_client_instance() { return &(_runtime.get_instance(_client_id)); }
+    rvi::client_instance* get_client_instance() { return _runtime.get_instance(_client_id); }
 };
