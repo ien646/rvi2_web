@@ -22,7 +22,7 @@ public:
     {
         Wt::WApplication::instance()->useStyleSheet("css/main.css");
         this->setTitle("TEST");
-
+        
         root()->setStyleClass("nomp");
         root()->setPadding(0);
         root()->setThemeStyleEnabled(false);

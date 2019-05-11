@@ -75,6 +75,8 @@
         "optional": "cpp",
         "regex": "cpp",
         "stack": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "forward_list": "cpp",
+        "WApplication.C": "cpp"
     }
 }

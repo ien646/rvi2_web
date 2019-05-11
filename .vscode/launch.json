@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch",
+            "name": "(Windows) Debug64",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build_debug/output/bin/rvi2_web/rvi2_web.exe",
+            "program": "${workspaceFolder}/build_debug_win64/output/bin/rvi2_web/rvi2_web.exe",
             "args": ["--http-listen","127.0.0.1:8888","--docroot","."],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build_debug/output/bin/rvi2_web",
+            "cwd": "${workspaceFolder}/build_debug_win64/output/bin/rvi2_web",
             "environment": [],
             "externalConsole": true
         }

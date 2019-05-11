@@ -4,10 +4,10 @@
 #include <Wt/WJavaScript.h>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include <rvi/runtime.hpp>
 #include <rvi/standard_library.hpp>
-
 
 class cozy_widget : public Wt::WGLWidget
 {
@@ -36,11 +36,15 @@ private:
 
     void init_resize_timer(int pollrate_ms);
 
+    std::unordered_map<std::string, std::string> _js_cache;
+
 public:
     cozy_widget();
     void refresh_snapshot();
 
     void init_lua_methods();
+
+    void run_js(const std::string& filename);
 
     void initializeGL() override;
     void resizeGL(int width, int height) override;

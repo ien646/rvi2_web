@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build_Debug",
+            "label": "Build_Debug_Win64",
             "type": "shell",
-            "command": "./s_build_debug.sh",
+            "command": "./build_debug_win64.bat",
             "group": {
                 "kind": "build",
                 "isDefault": true

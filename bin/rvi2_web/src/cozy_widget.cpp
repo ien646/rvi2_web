@@ -15,12 +15,12 @@ const std::string cozy_widget::VX_SHADER_PATH = "shaders/vxshader.glsl";
 
 void cozy_widget::init_resize_timer(int pollrate_ms)
 {
-    std::stringstream jstr;
-    jstr << "setInterval("
-         << "function() {"
-         << "Wt.emit('" + id() + "', 'resize_signal', window.innerWidth, window.innerHeight)}"
-         << ", " + std::to_string(pollrate_ms) + ")";
-    doJavaScript(jstr.str());
+    //std::stringstream jstr;
+    //jstr << "setInterval("
+    //     << "function() {"
+    //     << "Wt.emit('" + id() + "', 'resize_signal', window.innerWidth, window.innerHeight)}"
+    //     << ", " + std::to_string(pollrate_ms) + ")";
+    //doJavaScript(jstr.str());
 }
 
 void cozy_widget::resize_signal(int w, int h) 
@@ -75,6 +75,9 @@ void cozy_widget::init_lua_methods()
 cozy_widget::cozy_widget()
     : _resize_signal(this, "resize_signal")
 {
+    setId("_COZY_WIDGET_");
+    run_js("init.js");
+
     setStyleClass("nomp");
     init_resize_timer(1000);
     // Disable padding
@@ -218,4 +221,19 @@ void cozy_widget::paintGL()
     clearColor(0.2, 0.2, 0.2, 0.5);
     useProgram(_sh_program);
     drawArrays(LINES, 0, _vx_data.size() * 2);
+}
+
+void cozy_widget::run_js(const std::string& filename)
+{
+    std::fstream fs("js/" + filename);
+    if(fs)
+    {
+        std::stringstream sstr;
+        sstr << fs.rdbuf();
+        doJavaScript(sstr.str());
+    }
+    else
+    {
+        std::cerr << "[cozy_widget::run_js] File:" << filename << " not found!";
+    }
 }
