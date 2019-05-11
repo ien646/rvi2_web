@@ -1,5 +1,4 @@
-set(RVI_MIN_CMAKE_VER "3.7.0")
-cmake_minimum_required (VERSION ${RVI_MIN_CMAKE_VER})
+cmake_minimum_required (VERSION "3.7.0")
 
 message("")
 message("****************************************")
@@ -15,7 +14,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-link_directories($ENV{BOOST_LIBRARYDIR})
+# -- Take special care linking Boost libraries for Wt on Windows --
+if(WIN32)
+    set(Boost_NO_SYSTEM_PATHS ON)
+    if(DEFINED ENV{BOOST_LIBRARYDIR})
+        if(EXISTS $ENV{BOOST_LIBRARYDIR})
+            message("Linking Boost libraries at $ENV{BOOST_LIBRARYDIR}")
+            link_directories($ENV{BOOST_LIBRARYDIR})
+        else()
+            message(FATAL_ERROR "Directory defined by BOOST_LIBRARYDIR environment variable does not exist!")
+        endif()        
+    else()
+        message(FATAL_ERROR "Windows based platforms must define BOOST_LIBRARYDIR environment variable!")
+    endif()
+endif()
 
 option(RVI2_BUILD_SAMPLES "..." OFF)
 option(RVI2_BUILD_TESTS	  "..." OFF)
