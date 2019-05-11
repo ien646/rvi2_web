@@ -11,18 +11,9 @@ add_executable(rvi2_web ${RVI2_WEB_SOURCES})
 
 target_include_directories(
     rvi2_web 
-    PUBLIC include 
+    PUBLIC include
     PRIVATE $<TARGET_PROPERTY:wt,INCLUDE_DIRECTORIES>
 )
-
-FIND_PACKAGE(Boost 1.35 COMPONENTS system)
-
-if(Boost_FOUND)
-else()
-	message(FATAL_ERROR "BOOST NOT FOUND!")
-endif()
-
-link_directories(${Boost_LIBRARY_DIRS})
 
 target_link_libraries(rvi2_web rvi2.host wt	wthttp)
 
