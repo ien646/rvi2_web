@@ -70,6 +70,11 @@ void cozy_widget::init_lua_methods()
         _aspect_ratio_x = x;
         _aspect_ratio_y = y;
     });
+
+    lua_state->set_function("wgl_lineWidth", [&](int width)
+    {
+        lineWidth(width);
+    });
 }
 
 cozy_widget::cozy_widget()
@@ -88,7 +93,7 @@ cozy_widget::cozy_widget()
 
     //Wt::WLength len(100, Wt::LengthUnit::Percentage);
     //resize(len, len);
-
+    
     decorationStyle().setBackgroundColor(Wt::WColor(100, 100, 100));
     setMargin(0);
     
