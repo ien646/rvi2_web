@@ -177,6 +177,11 @@ void cozy_widget::refresh_snapshot()
         entry.lines.move_into(_vx_data);
     }
 
+    if(_vx_data.empty())
+    {
+        return;
+    }
+
     bindBuffer(ARRAY_BUFFER, _vbo_pos);
     bufferDatafv(
         ARRAY_BUFFER, 
@@ -185,6 +190,7 @@ void cozy_widget::refresh_snapshot()
         DYNAMIC_DRAW,
         true
     );
+
     AttribLocation loc_vx_pos = getAttribLocation(_sh_program, "vertex_position");
     vertexAttribPointer(loc_vx_pos, 2, FLOAT, false, 8, 0);
     enableVertexAttribArray(loc_vx_pos);
@@ -225,7 +231,10 @@ void cozy_widget::paintGL()
     clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
     clearColor(0.2, 0.2, 0.2, 0.5);
     useProgram(_sh_program);
-    drawArrays(LINES, 0, _vx_data.size() * 2);
+    if(!_vx_data.empty())
+    {
+        drawArrays(LINES, 0, _vx_data.size() * 2);
+    }    
 }
 
 void cozy_widget::run_js(const std::string& filename)

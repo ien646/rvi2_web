@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.cpp": "cpp",
         "*.inl": "cpp",
         "memory": "cpp",
         "algorithm": "cpp",
@@ -77,6 +78,8 @@
         "stack": "cpp",
         "variant": "cpp",
         "forward_list": "cpp",
-        "WApplication.C": "cpp"
+        "WApplication.C": "cpp",
+        "WClientGLWidget.C": "cpp",
+        "WGLWidget.C": "cpp"
     }
 }
