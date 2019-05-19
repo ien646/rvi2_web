@@ -4,7 +4,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE 	${PROJECT_BINARY_DIR}/output/bin/rvi
 
 set(RVI2_WEB_SOURCES
 	src/main.cpp
-	src/cozy_widget.cpp
+    src/cozy_widget.cpp
+    src/frame_utils.cpp
 )
 
 add_executable(rvi2_web ${RVI2_WEB_SOURCES})
