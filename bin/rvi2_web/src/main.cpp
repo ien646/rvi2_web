@@ -7,13 +7,13 @@
 #include <rvi/runtime.hpp>
 #include <rvi/client_instance.hpp>
 
-#include "cozy_widget.hpp"
+#include "dialog_widget.hpp"
 
 class App : public Wt::WApplication
 {
 private:
     const Wt::WEnvironment& _env;
-    cozy_widget* _cozy;
+    dialog_widget* _cozy;
 
 public:
     App(const Wt::WEnvironment& env)
@@ -29,7 +29,7 @@ public:
 
         auto layout = root()->setLayout(std::make_unique<Wt::WHBoxLayout>());
         layout->setSpacing(0);
-        _cozy = layout->addWidget(std::make_unique<cozy_widget>());
+        _cozy = layout->addWidget(std::make_unique<dialog_widget>());
     }
 };
 

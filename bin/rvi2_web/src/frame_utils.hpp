@@ -1,8 +1,9 @@
 #pragma once
 
-#include <stack>
 #include <rvi/client_context.hpp>
 #include <rvi/assert.hpp>
+
+#include <stack>
 
 class frame_autorelease
 {

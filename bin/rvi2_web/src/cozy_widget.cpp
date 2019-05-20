@@ -98,6 +98,10 @@ cozy_widget::cozy_widget()
     setMargin(0);
     
     _client_id = _runtime.create_client();
+}
+
+void cozy_widget::init()
+{
     _runtime.start_client(_client_id);
 
     this->clicked().connect([&](const Wt::WMouseEvent& e)

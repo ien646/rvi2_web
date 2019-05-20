@@ -11,7 +11,7 @@
 
 class cozy_widget : public Wt::WGLWidget
 {
-private:
+protected:
     rvi::runtime _runtime;
     rvi::rvi_cid_t _client_id = 0u;
 
@@ -40,6 +40,9 @@ private:
 
 public:
     cozy_widget();
+
+    void init();
+
     void refresh_snapshot();
 
     void init_lua_methods();

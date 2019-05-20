@@ -1,7 +1,7 @@
 {
     "files.associations": {
-        "*.cpp": "cpp",
         "*.inl": "cpp",
+        "*.cpp": "cpp",
         "memory": "cpp",
         "algorithm": "cpp",
         "any": "cpp",
@@ -80,6 +80,10 @@
         "forward_list": "cpp",
         "WApplication.C": "cpp",
         "WClientGLWidget.C": "cpp",
-        "WGLWidget.C": "cpp"
+        "WGLWidget.C": "cpp",
+        "atomic": "cpp",
+        "filesystem": "cpp",
+        "queue": "cpp",
+        "WebSession.C": "cpp"
     }
 }
