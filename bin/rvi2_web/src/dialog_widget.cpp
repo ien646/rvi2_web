@@ -154,10 +154,14 @@ void dialog_widget::refresh_dialog()
     cctx->clear_frame();
     cctx->clear_children();
 
+    rvi::standard::print_settings psettins;
+    psettins.font_margin = rvi::vector2(0.1F, 0.1F);
+
     rvi::standard::printw(
         get_client_instance(), 
         cctx->selected_frame(), 
-        current_page().text
+        current_page().text,
+        psettins
     );
 
     if(current_page().next)
@@ -168,8 +172,14 @@ void dialog_widget::refresh_dialog()
         cctx->set_position(rvi::vector2(0.90F, 0.05F));
         cctx->draw_line(rvi::vector2(0.0F, 1.0F), rvi::vector2(1.0F, 0.5F));
         cctx->draw_line(rvi::vector2(0.0F, 0.0F), rvi::vector2(1.0F, 0.5F));
+        cctx->draw_line(rvi::vector2(0.0F, 0.0F), rvi::vector2(0.0F, 1.0F));
+        cctx->draw_line(rvi::vector2(0.0F, 0.8F), rvi::vector2(1.0F, 0.5F));
         get_client_instance()->set_current_frame_clickable("__dialog_click_next__");
     }
+    else
+    {
+        _runtime.delete_binding("__dialog_click_next__");
+    }    
 
     if(current_page().previous)
     {
@@ -179,6 +189,12 @@ void dialog_widget::refresh_dialog()
         cctx->set_position(rvi::vector2(0.90F, 0.05F));
         cctx->draw_line(rvi::vector2(1.0F, 1.0F), rvi::vector2(0.0F, 0.5F));
         cctx->draw_line(rvi::vector2(1.0F, 0.0F), rvi::vector2(0.0F, 0.5F));
+        cctx->draw_line(rvi::vector2(1.0F, 0.0F), rvi::vector2(1.0F, 1.0F));
+        cctx->draw_line(rvi::vector2(1.0F, 0.8F), rvi::vector2(0.0F, 0.5F));
         get_client_instance()->set_current_frame_clickable("__dialog_click_prev__");
+    }
+    else
+    {
+        _runtime.delete_binding("__dialog_click_prev__");
     }
 }

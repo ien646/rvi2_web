@@ -1,4 +1,5 @@
 echo "-- Initializing git submodules -- "
+git submodule --init --update
 git submodule init
 git submodule update
 md build_debug_win64

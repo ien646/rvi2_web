@@ -7,3 +7,4 @@ build_release_linux/
 build_release_win32/
 build_release_win64/
 .vscode/ipch/
+build/
