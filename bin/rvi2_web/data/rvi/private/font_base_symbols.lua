@@ -26,6 +26,11 @@ define("/",
     draw_line(vec2(0.0,0.0), vec2(1.0,1.0));
 ]]);
 
+define("\\",
+[[
+    draw_line(vec2(0.0,1.0), vec2(1.0,0.0));
+]]);
+
 define("=",
 [[
     draw_line(vec2(0.0,0.3), vec2(1.0,0.3));
@@ -95,4 +100,14 @@ define("$",
     draw_line(vec2(1.0,0.5), vec2(1.0,0.2));
     draw_line(vec2(1.0,0.2), vec2(0.0,0.2));
     draw_line(vec2(0.5,1.0), vec2(0.5,0.0));
+]]);
+
+define("?",
+[[
+    draw_line(vec2(0.0,1.0), vec2(1.0,1.0));
+    draw_line(vec2(1.0,1.0), vec2(1.0,0.5));
+    draw_line(vec2(1.0,0.5), vec2(0.5,0.5));
+    draw_line(vec2(0.5,0.5), vec2(0.5,0.2));
+    draw_line(vec2(0.5, 0.15), vec2(0.5,0.05));
+    draw_line(vec2(0.45, 0.10, vec2(0.55, 0.10));
 ]]);
