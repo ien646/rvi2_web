@@ -31,21 +31,21 @@ void frame_autorelease::select_frame(std::string&& name)
 }
 
 // +-+-+-+-+-+-+-+-+-+-+
-// frame_save_context  +
+// frame_checkpoint  +
 // +-+-+-+-+-+-+-+-+-+-+
 
-frame_save_context::frame_save_context(rvi::client_context* cctx)
+frame_checkpoint::frame_checkpoint(rvi::client_context* cctx)
     : _cctx(cctx)
 { 
     _saved_frame = _cctx->selected_frame();
 }
 
-frame_save_context::frame_save_context(rvi::client_context* cctx, rvi::frame* fptr)
+frame_checkpoint::frame_checkpoint(rvi::client_context* cctx, rvi::frame* fptr)
     : _cctx(cctx)
     , _saved_frame(_cctx->selected_frame())
 { }
 
-frame_save_context::~frame_save_context()
+frame_checkpoint::~frame_checkpoint()
 {
     _cctx->select_frame(_saved_frame);
 }

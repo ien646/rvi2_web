@@ -20,14 +20,14 @@ public:
     void select_frame(std::string&& name);
 };
 
-class frame_save_context
+class frame_checkpoint
 {
 private:
     rvi::frame* _saved_frame;
     rvi::client_context* _cctx = nullptr;
 
 public:
-    frame_save_context(rvi::client_context* cctx);
-    frame_save_context(rvi::client_context* cctx, rvi::frame* fptr);
-    virtual ~frame_save_context();
+    frame_checkpoint(rvi::client_context* cctx);
+    frame_checkpoint(rvi::client_context* cctx, rvi::frame* fptr);
+    virtual ~frame_checkpoint();
 };

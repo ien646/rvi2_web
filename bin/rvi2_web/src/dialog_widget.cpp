@@ -28,19 +28,18 @@ void dialog_widget::init_lua()
 {
     auto* lua = get_client_instance()->get_lua_context()->get_lua_state();
 
-    lua->set_function("dialog_refresh", [&]()
-    {
-        refresh_dialog();
-    });
+    sol::table dialog_table = lua->create_table("dialog");
 
-    lua->set_function("declare_dialog_page", 
+    dialog_table.set_function("refresh", [&]{ refresh_dialog(); });
+
+    dialog_table.set_function("declare_page", 
         [&](const std::string& dialog_name)
         {
             _dialog_pages.emplace(dialog_name, dialog_page());
         }
     );
 
-    lua->set_function("set_dialog_page_text", 
+    dialog_table.set_function("set_page_text", 
         [&](const std::string& dialog_name, const std::string& text)
         {
             rvi::debug_assert(
@@ -52,7 +51,7 @@ void dialog_widget::init_lua()
         }
     );
 
-    lua->set_function("set_dialog_next_page",
+    dialog_table.set_function("set_next_page",
         [&](const std::string& dialog_name, const std::string& next)
         {
             rvi::debug_assert(
@@ -66,7 +65,7 @@ void dialog_widget::init_lua()
         }
     );
 
-    lua->set_function("set_dialog_prev_page",
+    dialog_table.set_function("set_prev_page",
         [&](const std::string& dialog_name, const std::string& prev)
         {
             rvi::debug_assert(
@@ -80,7 +79,7 @@ void dialog_widget::init_lua()
         }
     );
 
-    lua->set_function("goto_page", [&](const std::string& dialog_name)
+    dialog_table.set_function("goto_page", [&](const std::string& dialog_name)
     {
         rvi::debug_assert(
                 _dialog_pages.count(dialog_name) > 0, 
@@ -90,7 +89,7 @@ void dialog_widget::init_lua()
         _current_page = dialog_name;
     });
 
-    lua->set_function("set_next_custom_function", 
+    dialog_table.set_function("set_next_custom_function", 
         [&](const std::string& dialog_name, sol::function func)
         {
             rvi::debug_assert(
@@ -103,7 +102,7 @@ void dialog_widget::init_lua()
         }
     );
 
-    lua->set_function("set_prev_custom_function",
+    dialog_table.set_function("set_prev_custom_function",
     [&](const std::string& dialog_name, sol::function func)
         {
             rvi::debug_assert(
@@ -147,7 +146,7 @@ dialog_page& dialog_widget::current_page()
 void dialog_widget::refresh_dialog()
 {
     auto* cctx = get_client_context();
-    frame_save_context checkpoint(cctx);
+    frame_checkpoint checkpoint(cctx);
     cctx->select_root();
     cctx->select_frame("__DIALOG_ROOT__");
 
