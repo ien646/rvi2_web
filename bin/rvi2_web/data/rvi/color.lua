@@ -1,4 +1,8 @@
-rvi_color = {
+if rvi == nil then
+    rvi = {}
+end
+
+rvi.color_list = {
     black   = { 0,    0,    0,    255 },
     gray    = { 127,  127,  127,  255 },
     grey    = { 127,  127,  127,  255 },
@@ -15,7 +19,7 @@ rvi_color = {
     pink    = { 255,  100,  200,  255 }
 };
 
-function r_set_color(name)
-    entry = rvi_color[name];
+rvi.set_color = function (name)
+    entry = rvi.color_list[name];
     set_color(color_rgba.new(entry[1], entry[2], entry[3], entry[4]))
 end

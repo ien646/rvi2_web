@@ -8,7 +8,8 @@ function nu_dialog(id, nxt, text)
     dialog.set_next_page(id, nxt);
 end
 
-r_set_color("orange");
+set_viewport_aspect_ratio(16, 9)
+rvi.set_color("orange");
 
 nu_dialog("001", "002", "Hi there friend");
 nu_dialog("002", "003", "How are ya doing?");
